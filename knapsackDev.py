@@ -46,18 +46,48 @@ def loadKnapsack(items,knapsack_cap):
         If you are finished loading the knapsack, then return any string value  """
         
     """ Compute existing load in knapsack """
-    myUsername = 'jrbrad' # always return this variable as the first item
+    myUsername = 'jvalderama' # always return this variable as the first item
     nickname = '' # This idenfier will appear on the leaderboard, if you desire to be identified.  This may be left as an empty string.
     items_to_pack = []    # use this list for the indices of the items you load into the knapsack
     
-    load = 0.0            # use this variable to keep track of how much volume is already loaded into the backpack
-    value = 0.0           # value in knapsack
-        
-    item_keys = [k for k in items.keys()]
-    pack_item = item_keys[0]
-    items_to_pack.append(pack_item)
-    load += items[pack_item][0]
-    value += items[pack_item][1]
+    # didn't use
+    # load = 0.0            # use this variable to keep track of how much volume is already loaded into the backpack
+    # value = 0.0           # value in knapsack
+    
+    # create dictionaries to store values
+    
+    weightCache = {}
+    valueCache = {}
+    knapCache = {}    
+    for i in range(len(items)):
+        packed = []
+        packed.append(i)
+        w = list(items.values())[i][0]
+        v = list(items.values())[i][1]
+        for j in range(len(items)):
+            if j == i:
+                next
+            else:
+                tempW = list(items.values())[i][0]
+                tempV = list(items.values())[i][1]
+                if w + tempW > knapsack_cap:
+                    next
+                else:
+                    w += tempW
+                    v += tempV
+                    packed.append(j)
+            valueCache[i] = v
+            # see if the sequence happens more than once,
+            check = all(item in packed for item in list(knapCache.values()))
+            # if the sequence exists move on to the next iteration
+            if check:
+                next
+        else:
+            knapCache[i] = packed
+            weightCache[i] = w
+    idx = max(valueCache, key=valueCache.get)
+    items_to_pack = knapCache[idx]
+    print(items_to_pack)
     
     return myUsername, nickname, items_to_pack       # use this return statement when you have items to load in the knapsack
         
